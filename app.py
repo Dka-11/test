@@ -11,7 +11,7 @@ UPLOAD_FOLDER = './images/'
 ALLOWED_EXTENSIONS = {'png','jpg','jpeg'}
 
 # Load Model
-model = load_model('./Model/model_flowers.h5')
+model = load_model('./Model/flowers_246_205.h5')
 
 # Syarat file yang diperbolehkan
 def allowed_file(filename):
@@ -33,15 +33,21 @@ def predict_flower(files_path):
     flower_prediction = model.predict(images, batch_size=7)
     max_prob = np.max(flower_prediction)
     
-    if max_prob < 0.70:
-        result = "Bukan Bunga"
-    else:
-        index = np.argmax(flower_prediction)
-        if index < len(flower_classes):
-            result = "{}".format(flower_classes[index])
-        else:
-            result = "Tidak dapat diklasifikasi"
+    # if max_prob < 0.70:
+    #     result = "Bukan Bunga"
+    # else:
+    #     index = np.argmax(flower_prediction)
+    #     if index < len(flower_classes):
+    #         result = "{}".format(flower_classes[index])
+    #     else:
+    #         result = "Tidak dapat diklasifikasi"
     
+    index = np.argmax(flower_prediction)
+    if index < len(flower_classes):
+        result = "{}".format(flower_classes[index])
+    else:
+        result = "Tidak dapat diklasifikasi"
+        
     # Menghapus file setelah dilakukannya klasifikasi
     os.remove(files_path)
     
